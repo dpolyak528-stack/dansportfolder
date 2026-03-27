@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danny Polyak — Веб-разработка для бизнеса</title>
+<meta name="description" content="Делаю сайты для малого бизнеса. Кафе, цветочные студии, барбершопы, строительные компании. Нью-Йорк, Москва, Ереван.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f7f5f2;--bg-alt:#edeae5;--card:#fff;
+  --ink:#1a1715;--ink-2:#3d3833;--ink-3:#6b6560;--ink-4:#9b9590;--ink-5:#c4bfba;
+  --warm:#c45a3c;--warm-soft:rgba(196,90,60,.08);
+  --sans:'DM Sans',system-ui,sans-serif;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sh:0 1px 3px rgba(26,23,21,.04),0 6px 24px rgba(26,23,21,.06);
+  --sh-lg:0 4px 12px rgba(26,23,21,.04),0 16px 48px rgba(26,23,21,.1);
+  --r:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
+::selection{background:var(--warm);color:#fff}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:all .35s ease}
+.nav-inner{max-width:1120px;margin:0 auto;padding:16px 28px;display:flex;justify-content:space-between;align-items:center}
+.nav.stuck{background:rgba(247,245,242,.92);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--ink-5)}
+.nav-name{font-family:var(--serif);font-size:20px;color:var(--ink)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;color:var(--ink-3);font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links .cta-link{color:var(--warm);font-weight:700}
+.nav-links .cta-link:hover{color:var(--ink)}
+.burger{display:none;background:0;border:0;cursor:pointer;padding:4px}
+.burger svg{display:block}
+
+/* HERO */
+.hero{padding:160px 28px 100px;max-width:1120px;margin:0 auto}
+.hero-hi{font-size:15px;font-weight:500;color:var(--ink-3);margin-bottom:20px}
+.hero h1{font-family:var(--serif);font-size:clamp(40px,6.5vw,72px);line-height:1.08;letter-spacing:-.02em;margin-bottom:28px;max-width:700px}
+.hero h1 i{font-style:italic;color:var(--warm)}
+.hero-desc{font-size:17px;color:var(--ink-3);max-width:520px;line-height:1.7;margin-bottom:40px}
+.hero-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.h-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:8px;font-size:14px;font-weight:700;transition:all .25s}
+.h-btn-fill{background:var(--ink);color:var(--bg)}
+.h-btn-fill:hover{background:var(--warm);transform:translateY(-1px)}
+.h-btn-ghost{color:var(--ink-3);border:1.5px solid var(--ink-5)}
+.h-btn-ghost:hover{border-color:var(--ink-3);color:var(--ink)}
+.hero-note{margin-top:56px;display:flex;gap:32px;flex-wrap:wrap}
+.hero-note span{font-size:13px;color:var(--ink-4);display:flex;align-items:center;gap:6px}
+.hero-note span::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--ink-5)}
+
+/* WORK */
+.work{padding:80px 28px 100px;max-width:1120px;margin:0 auto}
+.work-head{margin-bottom:48px}
+.work-head h2{font-family:var(--serif);font-size:clamp(28px,4vw,40px);margin-bottom:8px}
+.work-head p{color:var(--ink-3);font-size:15px}
+
+.work-list{display:flex;flex-direction:column;gap:28px}
+
+.w-card{display:grid;grid-template-columns:1.1fr .9fr;background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);transition:all .4s ease}
+.w-card:hover{box-shadow:var(--sh-lg);transform:translateY(-3px)}
+.w-card:nth-child(even){grid-template-columns:.9fr 1.1fr}
+.w-card:nth-child(even) .w-preview{order:2}
+.w-card:nth-child(even) .w-info{order:1}
+
+.w-preview{position:relative;min-height:340px;overflow:hidden;background:var(--bg-alt)}
+.w-preview img{width:100%;height:100%;object-fit:cover;object-position:top;position:absolute;inset:0;transition:transform 3s ease}
+.w-card:hover .w-preview img{transform:scale(1.03)}
+.w-badge{position:absolute;top:16px;left:16px;z-index:2;font-size:12px;font-weight:700;color:var(--ink-2);background:rgba(255,255,255,.85);backdrop-filter:blur(8px);padding:5px 12px;border-radius:6px}
+
+.w-info{padding:36px 40px;display:flex;flex-direction:column;justify-content:center}
+.w-sub{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);margin-bottom:10px}
+.w-name{font-family:var(--serif);font-size:26px;margin-bottom:12px;line-height:1.2}
+.w-desc{font-size:14px;color:var(--ink-3);line-height:1.75;margin-bottom:20px}
+.w-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px}
+.w-tag{font-size:11px;font-weight:500;padding:4px 10px;border-radius:4px;background:var(--bg);color:var(--ink-3);border:1px solid var(--bg-alt)}
+
+/* ABOUT */
+.about{padding:80px 28px 100px;background:var(--bg-alt)}
+.about-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.about-text h2{font-family:var(--serif);font-size:clamp(28px,4vw,40px);margin-bottom:20px;line-height:1.15}
+.about-text h2 i{font-style:italic;color:var(--warm)}
+.about-text p{font-size:15px;color:var(--ink-3);line-height:1.8;margin-bottom:14px}
+.about-right{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.a-card{background:var(--card);border-radius:var(--r);padding:28px 22px;box-shadow:var(--sh);text-align:center;transition:transform .3s}
+.a-card:hover{transform:translateY(-3px)}
+.a-num{font-family:var(--serif);font-size:32px;color:var(--ink);margin-bottom:4px}
+.a-label{font-size:12px;color:var(--ink-4);font-weight:500}
+
+/* CONTACT */
+.contact{padding:80px 28px 100px;max-width:1120px;margin:0 auto;text-align:center}
+.contact h2{font-family:var(--serif);font-size:clamp(28px,4vw,40px);margin-bottom:12px}
+.contact>p{color:var(--ink-3);font-size:15px;margin-bottom:36px;max-width:440px;margin-left:auto;margin-right:auto}
+.c-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.c-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:8px;font-size:14px;font-weight:600;background:var(--card);box-shadow:var(--sh);border:1px solid var(--bg-alt);color:var(--ink-2);transition:all .25s}
+.c-btn:hover{box-shadow:var(--sh-lg);transform:translateY(-2px);border-color:var(--warm);color:var(--ink)}
+.c-btn svg{width:18px;height:18px;flex-shrink:0}
+
+/* FOOTER */
+.foot{padding:32px 28px;text-align:center;border-top:1px solid var(--bg-alt)}
+.foot p{font-size:13px;color:var(--ink-4)}
+
+/* MOBILE NAV */
+.mob-menu{position:fixed;inset:0;z-index:99;background:rgba(247,245,242,.97);backdrop-filter:blur(20px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;opacity:0;pointer-events:none;transition:opacity .3s}
+.mob-menu.on{opacity:1;pointer-events:all}
+.mob-menu a{font-family:var(--serif);font-size:28px;color:var(--ink);transition:color .2s}
+.mob-menu a:hover{color:var(--warm)}
+.mob-x{position:absolute;top:16px;right:28px;background:0;border:0;font-size:28px;cursor:pointer;color:var(--ink)}
+
+@media(max-width:900px){
+  .w-card,.w-card:nth-child(even){grid-template-columns:1fr}
+  .w-card:nth-child(even) .w-preview{order:0}
+  .w-card:nth-child(even) .w-info{order:0}
+  .w-preview{min-height:260px}
+  .about-inner{grid-template-columns:1fr;gap:40px}
+}
+@media(max-width:640px){
+  .nav-links{display:none}.burger{display:block}
+  .hero{padding:120px 20px 60px}
+  .work,.contact{padding:60px 20px 80px}
+  .about{padding:60px 20px 80px}
+  .w-info{padding:24px 20px}
+  .hero-note{flex-direction:column;gap:8px}
+  .about-right{grid-template-columns:1fr 1fr}
+  .c-links{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-name">Danny Polyak</a>
+    <div class="nav-links">
+      <a href="#work">Работы</a>
+      <a href="#about">Обо мне</a>
+      <a href="#contact" class="cta-link">Написать</a>
+    </div>
+    <button class="burger" onclick="document.querySelector('.mob-menu').classList.add('on')" aria-label="Меню">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1715" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mob-menu">
+  <button class="mob-x" onclick="this.parentElement.classList.remove('on')">&times;</button>
+  <a href="#work" onclick="this.closest('.mob-menu').classList.remove('on')">Работы</a>
+  <a href="#about" onclick="this.closest('.mob-menu').classList.remove('on')">Обо мне</a>
+  <a href="#contact" onclick="this.closest('.mob-menu').classList.remove('on')">Написать</a>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <p class="hero-hi">Danny Polyak / веб-разработка</p>
+  <h1>Делаю сайты,<br>на которые <i>приятно</i> смотреть</h1>
+  <p class="hero-desc">Работаю с малым бизнесом: кафе, цветочные студии, барбершопы, строительные компании. Каждый сайт собираю руками под конкретную задачу.</p>
+  <div class="hero-row">
+    <a href="#work" class="h-btn h-btn-fill">Посмотреть работы</a>
+    <a href="#contact" class="h-btn h-btn-ghost">Написать мне</a>
+  </div>
+  <div class="hero-note">
+    <span>6 проектов в портфолио</span>
+    <span>Нью-Йорк, Москва, Ереван</span>
+    <span>Русский и английский</span>
+  </div>
+</header>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="work-head">
+    <h2>Последние работы</h2>
+    <p>Сайты для реального бизнеса, каждый со своим характером</p>
+  </div>
+
+  <div class="work-list">
+
+    <!-- Agape Flowers -->
+    <div class="w-card">
+      <div class="w-preview">
+        <img src="screenshots/agape.jpg" alt="Agape Flowers" loading="lazy">
+        <div class="w-badge">Цветы</div>
+      </div>
+      <div class="w-info">
+        <div class="w-sub">Цветочная мастерская &middot; Ереван, Армения</div>
+        <div class="w-name">Agape Flowers</div>
+        <p class="w-desc">Сайт для цветочной студии в Ереване с каталогом букетов, информацией об оформлении свадеб и мероприятий, доставкой по городу. Нежная палитра, акцент на визуал.</p>
+        <div class="w-tags">
+          <span class="w-tag">HTML / CSS / JS</span>
+          <span class="w-tag">Каталог</span>
+          <span class="w-tag">Адаптив</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Кафе Термос -->
+    <div class="w-card">
+      <div class="w-preview">
+        <img src="screenshots/termos.jpg" alt="Кафе Термос" loading="lazy">
+        <div class="w-badge">Кафе</div>
+      </div>
+      <div class="w-info">
+        <div class="w-sub">Семейное кафе &middot; Москва, Россия</div>
+        <div class="w-name">Кафе &laquo;Термос&raquo;</div>
+        <p class="w-desc">Сайт для семейного кафе в Коммунарке: интерактивное меню на 8 категорий, карусель отзывов на мобильных, Яндекс Карты, бронирование по телефону. Рейтинг заведения 5.0.</p>
+        <div class="w-tags">
+          <span class="w-tag">HTML / CSS / JS</span>
+          <span class="w-tag">Яндекс Карты</span>
+          <span class="w-tag">Интерактивное меню</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nix Contracting -->
+    <div class="w-card">
+      <div class="w-preview">
+        <img src="screenshots/nix.jpg" alt="Nix Contracting" loading="lazy">
+        <div class="w-badge">Строительство</div>
+      </div>
+      <div class="w-info">
+        <div class="w-sub">Строительная компания &middot; Ниагара-Фолс, NY</div>
+        <div class="w-name">Nix Contracting</div>
+        <p class="w-desc">Сайт для строительной компании: каталог услуг, портфолио выполненных работ, отзывы клиентов и форма запроса бесплатной оценки. Профессиональный тон, тёмно-синяя палитра.</p>
+        <div class="w-tags">
+          <span class="w-tag">HTML / CSS / JS</span>
+          <span class="w-tag">Google Maps</span>
+          <span class="w-tag">Font Awesome</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chicks Barber Shop -->
+    <div class="w-card">
+      <div class="w-preview">
+        <img src="screenshots/chicks.jpg" alt="Chicks Barber Shop" loading="lazy">
+        <div class="w-badge">Барбершоп</div>
+      </div>
+      <div class="w-info">
+        <div class="w-sub">Барбершоп &middot; Буффало, NY</div>
+        <div class="w-name">Chicks Barber Shop</div>
+        <p class="w-desc">Лендинг для барбершопа на Hertel Ave: тёмная палитра с золотом, прайс-лист, галерея работ, отзывы, история бренда и система записи.</p>
+        <div class="w-tags">
+          <span class="w-tag">HTML / CSS / JS</span>
+          <span class="w-tag">Google Maps</span>
+          <span class="w-tag">Тёмная тема</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blaze Smoke Shop -->
+    <div class="w-card">
+      <div class="w-preview">
+        <img src="screenshots/blaze.jpg" alt="Blaze Smoke Shop" loading="lazy">
+        <div class="w-badge">Ритейл</div>
+      </div>
+      <div class="w-info">
+        <div class="w-sub">Магазин &middot; Бласделл, NY</div>
+        <div class="w-name">Blaze Smoke Shop</div>
+        <p class="w-desc">Сайт с каталогом товаров и фильтрацией по категориям, проверкой возраста, параллакс-эффектами, бегущей строкой брендов. Агрессивный дизайн в тёмных тонах.</p>
+        <div class="w-tags">
+          <span class="w-tag">HTML / CSS / JS</span>
+          <span class="w-tag">Каталог с фильтрами</span>
+          <span class="w-tag">Parallax</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aggies Bakery -->
+    <div class="w-card">
+      <div class="w-preview">
+        <img src="screenshots/aggies.jpg" alt="Aggies Bakery Cafe" loading="lazy">
+        <div class="w-badge">Пекарня</div>
+      </div>
+      <div class="w-info">
+        <div class="w-sub">Пекарня и кафе &middot; Тонаванда, NY</div>
+        <div class="w-name">Aggies Bakery &amp; Cafe</div>
+        <p class="w-desc">Сайт для семейной пекарни с полным меню в 6 категориях, реальными ценами, отзывами, расписанием работы и встроенной картой. Тёплая кремовая палитра.</p>
+        <div class="w-tags">
+          <span class="w-tag">HTML / CSS / JS</span>
+          <span class="w-tag">Google Maps</span>
+          <span class="w-tag">Табы меню</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-text">
+      <h2>Не шаблоны,<br>а <i>живые</i> сайты</h2>
+      <p>Каждый проект собираю с нуля. Не использую конструкторы и готовые темы. Подбираю шрифты, цвета, структуру и анимации под конкретный бизнес и его аудиторию.</p>
+      <p>Работаю с клиентами в трёх странах. Сайты делаю на русском и английском. Если вам нужен сайт, который будет отличаться от тысячи одинаковых лендингов &mdash; напишите.</p>
+    </div>
+    <div class="about-right">
+      <div class="a-card"><div class="a-num">6</div><div class="a-label">проектов</div></div>
+      <div class="a-card"><div class="a-num">3</div><div class="a-label">страны</div></div>
+      <div class="a-card"><div class="a-num">6</div><div class="a-label">ниш</div></div>
+      <div class="a-card"><div class="a-num">2</div><div class="a-label">языка</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <h2>Давайте обсудим ваш проект</h2>
+  <p>Расскажите, что за бизнес и какой сайт нужен &mdash; отвечу в течение дня.</p>
+  <div class="c-links">
+    <a href="mailto:polyakdanny@gmail.com" class="c-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      polyakdanny@gmail.com
+    </a>
+    <a href="https://t.me/weirdwestt" target="_blank" class="c-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="m22 2-11 13"/></svg>
+      @weirdwestt
+    </a>
+  </div>
+</section>
+
+<footer class="foot">
+  <p>&copy; 2026 Danny Polyak</p>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('stuck',scrollY>40));
+</script>
+</body>
+</html>
